@@ -170,7 +170,48 @@
     .reciter-name{ justify-content:center; }
   }
 
-  /* qr section */
+  /* mowkeb promo section */
+  .mowkeb-section{
+    text-align:center;
+    padding:44px 26px;
+    margin-bottom:46px;
+    border:1px solid var(--gold);
+    border-radius:8px;
+    background:radial-gradient(circle at 50% 0%, rgba(184,146,74,.14), rgba(15,61,46,.25));
+    position:relative;
+  }
+  .mowkeb-badge{
+    font-size:2.2rem; margin-bottom:6px; filter:drop-shadow(0 0 12px rgba(184,146,74,.5));
+  }
+  .mowkeb-section h2{
+    font-family:'Aref Ruqaa', serif;
+    font-size:1.8rem; color:var(--parchment); margin:0 0 8px;
+    text-shadow:0 0 20px rgba(184,146,74,.3);
+  }
+  .mowkeb-tagline{
+    color:var(--gold-bright); font-size:1rem; margin:0 0 18px; opacity:.95;
+  }
+  .mowkeb-desc{
+    font-size:.92rem; line-height:2; color:var(--parchment-soft); opacity:.85;
+    max-width:520px; margin:0 auto 28px;
+  }
+  .mowkeb-links{
+    display:inline-flex; flex-direction:column; gap:12px;
+    border-top:1px dashed rgba(201,185,138,.4);
+    border-bottom:1px dashed rgba(201,185,138,.4);
+    padding:20px 0; margin-bottom:20px;
+  }
+  .mowkeb-row{
+    display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;
+    font-size:.9rem;
+  }
+  .mowkeb-label{ color:var(--parchment-soft); opacity:.8; }
+  .mowkeb-value{
+    color:var(--gold-bright); font-weight:600; letter-spacing:.02em;
+  }
+  .mowkeb-value.link{ text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:1px; }
+  .mowkeb-value.link:hover{ color:var(--parchment); border-color:var(--parchment); }
+  .mowkeb-dua{ font-size:.85rem; color:var(--gold-bright); opacity:.8; margin:0; }
   .qr-section{
     text-align:center;
     padding:40px 24px;
@@ -202,7 +243,7 @@
 
   @media print{
     body{background:#fff; color:#111;}
-    .controls, .qr-section, .motif-band{display:none !important;}
+    .controls, .qr-section, .motif-band, .mowkeb-section{display:none !important;}
     audio, .dl-link{display:none !important;}
     .ar{color:#111;} .fa{color:#333; display:block !important;}
     .frame{border-color:#999;}
@@ -214,7 +255,6 @@
 <div class="motif-band"></div>
 
 <header class="hero">
-  <div class="kicker">۲۰ صفر المظفر · العشرون من صفر</div>
   <h1 class="title">زیارت اربعین<br>امام حسین علیه‌السلام</h1>
   <p class="subtitle">به روایت صفوان جمّال از امام صادق علیه‌السلام</p>
 </header>
@@ -316,6 +356,26 @@
 
   </section>
 
+  <div class="mowkeb-section">
+    <div class="mowkeb-badge">🕋</div>
+    <h2>موکب آیات الهی</h2>
+    <p class="mowkeb-tagline">اولین موکب قرآنی در مسیر پیاده‌روی اربعین حسینی</p>
+    <p class="mowkeb-desc">با یاری خدا و به عشق سالار شهیدان، امام حسین علیه‌السلام، میزبان زائران اربعین هستیم؛ جایی برای آرامش، خدمت، و همراهی با کلام وحی در مسیر عاشقان.</p>
+
+    <div class="mowkeb-links">
+      <div class="mowkeb-row">
+        <span class="mowkeb-label">ارتباط و همکاری با ادمین در شبکه اجتماعی بله</span>
+        <span class="mowkeb-value" dir="ltr">@pk145</span>
+      </div>
+      <div class="mowkeb-row">
+        <span class="mowkeb-label">کانال اطلاع‌رسانی در شبکه اجتماعی ایتا</span>
+        <a class="mowkeb-value link" href="https://eitaa.com/mokebayateelahi" target="_blank" rel="noopener" dir="ltr">eitaa.com/mokebayateelahi</a>
+      </div>
+    </div>
+
+    <p class="mowkeb-dua">التماس دعا در طول مسیر 🤍</p>
+  </div>
+
   <div class="qr-section">
     <h2>اشتراک‌گذاری با کد QR</h2>
     <p class="hint">این کد QR به همین صفحه اشاره می‌کند. پس از آپلود این فایل روی یک فضای میزبانی (مثل هاست شخصی، گیت‌هاب پیجز یا گوگل‌درایو با لینک عمومی)، می‌توانید کد را چاپ یا در فضای مجازی به اشتراک بگذارید تا دیگران با اسکن آن، مستقیم به متن و صوت زیارت دسترسی داشته باشند.</p>
@@ -343,7 +403,7 @@
   }
 
   // QR code — points to this page's own URL
-  const url = window.location.href.startsWith('http') ? window.location.href : 'این فایل را ابتدا میزبانی (Host) کنید تا لینک واقعی این‌جا نمایش داده شود';
+  const url = window.location.href.startsWith('http') ? window.location.href : 'https://mhmassoud.github.io/ziyarat-arbaeen/';
   document.getElementById('pageUrl').value = url;
   try{
     new QRCode(document.getElementById("qrcode"), {
@@ -354,7 +414,7 @@
       colorLight: "#fbf6e8",
       correctLevel: QRCode.CorrectLevel.H
     });
-  }catch(e){ document.getElementById('qrcode').innerText = 'کد QR پس از میزبانی صفحه در دسترس خواهد بود.'; }
+  }catch(e){ document.getElementById('qrcode').innerText = ''; }
 
   function copyUrl(){
     const input = document.getElementById('pageUrl');
