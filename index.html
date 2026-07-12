@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>زیارت اربعین امام حسین علیه‌السلام</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --ink:#0e2b22;
+    --emerald:#0f3d2e;
+    --emerald-deep:#082019;
+    --gold:#b8924a;
+    --gold-bright:#d8b876;
+    --parchment:#f3ecd9;
+    --parchment-soft:#ece2c8;
+    --line:#c9b98a;
+    --maxw:820px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 50% 0%, #123f30 0%, #082019 55%, #050f0c 100%);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    padding:0 0 60px;
+  }
+
+  /* subtle repeating geometric motif */
+  .motif-band{
+    height:14px;
+    width:100%;
+    background:
+      repeating-linear-gradient(135deg, var(--gold) 0 2px, transparent 2px 14px),
+      repeating-linear-gradient(45deg, var(--gold) 0 2px, transparent 2px 14px);
+    background-color:var(--emerald-deep);
+    opacity:.85;
+  }
+
+  header.hero{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:64px 24px 40px;
+    text-align:center;
+    position:relative;
+  }
+  .kicker{
+    letter-spacing:.35em;
+    font-size:.72rem;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    margin-bottom:18px;
+    opacity:.85;
+  }
+  h1.title{
+    font-family:'Aref Ruqaa', serif;
+    font-size:clamp(2.1rem, 6vw, 3.4rem);
+    margin:0 0 10px;
+    color:var(--parchment);
+    text-shadow:0 0 30px rgba(184,146,74,.35);
+    line-height:1.35;
+  }
+  .subtitle{
+    font-size:1.05rem;
+    color:var(--parchment-soft);
+    opacity:.8;
+    margin:0 0 28px;
+  }
+  .arch{
+    width:120px;height:120px;margin:0 auto 8px;
+    opacity:.9;
+  }
+
+  main{max-width:var(--maxw); margin:0 auto; padding:0 20px;}
+
+  /* controls bar */
+  .controls{
+    display:flex; gap:12px; flex-wrap:wrap; justify-content:center;
+    margin:8px 0 44px;
+  }
+  .btn{
+    appearance:none; border:1px solid var(--gold); background:rgba(184,146,74,.08);
+    color:var(--gold-bright); padding:11px 22px; border-radius:999px;
+    font-family:'Vazirmatn',sans-serif; font-size:.92rem; cursor:pointer;
+    transition:.2s ease; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{ background:var(--gold); color:var(--emerald-deep); }
+  .btn.active{ background:var(--gold); color:var(--emerald-deep); }
+  .btn svg{width:16px;height:16px;flex:none;}
+
+  /* verse card */
+  .frame{
+    position:relative;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(243,236,217,.04), rgba(243,236,217,.01));
+    border-radius:6px;
+    padding:44px 30px 30px;
+    margin-bottom:46px;
+  }
+  .frame::before, .frame::after{
+    content:"";
+    position:absolute; width:34px; height:34px;
+    border:2px solid var(--gold);
+  }
+  .frame::before{ top:-1px; right:-1px; border-left:none; border-bottom:none; }
+  .frame::after{ bottom:-1px; left:-1px; border-right:none; border-top:none; }
+
+  .verse{
+    margin-bottom:30px; padding-bottom:26px;
+    border-bottom:1px dashed rgba(201,185,138,.35);
+  }
+  .verse:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+
+  .ar{
+    font-family:'Amiri', serif;
+    font-size:1.55rem;
+    line-height:2.5;
+    color:#fbf6e8;
+    text-align:justify;
+    text-justify:inter-word;
+  }
+  .fa{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:.98rem;
+    line-height:2.1;
+    color:var(--gold-bright);
+    margin-top:14px;
+    opacity:.95;
+    display:none;
+  }
+  .fa.show{ display:block; }
+
+  .section-label{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:.78rem;
+    color:var(--gold);
+    letter-spacing:.15em;
+    margin:0 0 22px;
+    text-align:center;
+    opacity:.8;
+  }
+
+  /* reciter audio cards */
+  .reciter{
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+    padding-bottom:24px; margin-bottom:24px;
+    border-bottom:1px dashed rgba(201,185,138,.35);
+  }
+  .reciter-name{
+    display:flex; align-items:center; gap:10px;
+    min-width:190px; color:var(--gold-bright); font-size:.95rem;
+  }
+  .reciter-name svg{ width:20px; height:20px; flex:none; color:var(--gold); }
+  .reciter audio{
+    flex:1 1 260px; min-width:220px; height:38px;
+    filter: sepia(15%) saturate(120%);
+  }
+  .dl-link{
+    color:var(--gold-bright); border:1px solid var(--gold); border-radius:999px;
+    padding:8px 16px; font-size:.82rem; text-decoration:none; white-space:nowrap;
+    transition:.2s ease;
+  }
+  .dl-link:hover{ background:var(--gold); color:var(--emerald-deep); }
+  @media (max-width:520px){
+    .reciter{ flex-direction:column; align-items:stretch; text-align:center; }
+    .reciter-name{ justify-content:center; }
+  }
+
+  /* qr section */
+  .qr-section{
+    text-align:center;
+    padding:40px 24px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:rgba(15,61,46,.35);
+  }
+  .qr-section h2{
+    font-family:'Aref Ruqaa', serif;
+    font-size:1.5rem; color:var(--parchment); margin:0 0 6px;
+  }
+  .qr-section .hint{ font-size:.85rem; color:var(--parchment-soft); opacity:.75; max-width:480px; margin:0 auto 26px; line-height:1.9;}
+  #qrcode{
+    display:inline-block; padding:16px; background:#fbf6e8; border-radius:10px;
+    box-shadow:0 0 40px rgba(184,146,74,.25);
+  }
+  .url-box{
+    margin-top:20px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  }
+  .url-box input{
+    background:var(--emerald-deep); border:1px solid var(--line); color:var(--parchment);
+    padding:9px 14px; border-radius:999px; font-size:.8rem; width:min(360px, 70vw);
+    text-align:center; direction:ltr;
+  }
+
+  footer{
+    text-align:center; margin-top:50px; font-size:.78rem; color:var(--parchment-soft); opacity:.55;
+  }
+
+  @media print{
+    body{background:#fff; color:#111;}
+    .controls, .qr-section, .motif-band{display:none !important;}
+    audio, .dl-link{display:none !important;}
+    .ar{color:#111;} .fa{color:#333; display:block !important;}
+    .frame{border-color:#999;}
+  }
+</style>
+</head>
+<body>
+
+<div class="motif-band"></div>
+
+<header class="hero">
+  <div class="kicker">۲۰ صفر المظفر · العشرون من صفر</div>
+  <h1 class="title">زیارت اربعین<br>امام حسین علیه‌السلام</h1>
+  <p class="subtitle">به روایت صفوان جمّال از امام صادق علیه‌السلام</p>
+</header>
+
+<main>
+
+  <div class="controls">
+    <button class="btn active" id="toggleTranslation" onclick="toggleTranslation()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
+      نمایش ترجمه فارسی
+    </button>
+    <button class="btn" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+      چاپ صفحه
+    </button>
+  </div>
+
+  <p class="section-label">— متن زیارت —</p>
+
+  <section class="frame" id="ziyarat-text">
+
+    <div class="verse">
+      <div class="ar">السَّلامُ عَلى وَلِيِّ اللَّهِ وَ حَبيبِهِ، السَّلامُ عَلى خَليلِ اللَّهِ وَ نَجيبِهِ، السَّلامُ عَلى صَفِيِّ اللَّهِ وَ ابْنِ صَفِيِّهِ، السَّلامُ عَلَى الْحُسَيْنِ الْمَظْلُومِ الشَّهيدِ، السَّلامُ عَلى أَسيرِ الْكُرُباتِ وَ قَتيلِ الْعَبَراتِ.</div>
+      <div class="fa show">سلام بر ولیّ خدا و حبیب او، سلام بر دوست خدا و برگزیده او، سلام بر بنده برگزیده خدا و فرزند برگزیده‌اش، سلام بر حسین مظلوم و شهید، سلام بر آن اسیرِ گرفتاری‌ها و کشته اشک‌ها.</div>
+    </div>
+
+    <div class="verse">
+      <div class="ar">اَللَّهُمَّ إِنّي أَشْهَدُ أَنَّهُ وَلِيُّكَ وَ ابْنُ وَلِيِّكَ، وَ صَفِيُّكَ وَ ابْنُ صَفِيِّكَ، الْفائِزُ بِكَرامَتِكَ، أَكْرَمْتَهُ بِالشَّهادَةِ، وَ حَبَوْتَهُ بِالسَّعادَةِ، وَ اجْتَبَيْتَهُ بِطيبِ الْوِلادَةِ، وَ جَعَلْتَهُ سَيِّداً مِنَ السّادَةِ، وَ قائِداً مِنَ الْقادَةِ، وَ ذائِداً مِنَ الذّادَةِ، وَ أَعْطَيْتَهُ مَواريثَ الْأَنْبِياءِ، وَ جَعَلْتَهُ حُجَّةً عَلى خَلْقِكَ مِنَ الْأَوْصِياءِ، فَأَعْذَرَ فِي الدُّعاءِ، وَ مَنَحَ النُّصْحَ، وَ بَذَلَ مُهْجَتَهُ فيكَ لِيَسْتَنْقِذَ عِبادَكَ مِنَ الْجَهالَةِ وَ حَيْرَةِ الضَّلالَةِ.</div>
+      <div class="fa show">خدایا، همانا گواهی می‌دهم که او ولیّ تو و فرزند ولیّ تو، و برگزیده تو و فرزند برگزیده توست که به کرامت تو رسید؛ او را به شهادت گرامی داشتی، و به سعادت مخصوص گرداندی، و با پاکی ولادت برگزیدی، و او را سروری از سروران و پیشوایی از پیشوایان و مدافعی از مدافعان حق قرار دادی، و میراث پیامبران را به او عطا کردی، و او را حجّتی از جانشینان بر آفریدگانت قرار دادی؛ پس در دعوتِ خود عذری باقی نگذاشت، و خیرخواهی نمود، و جان خویش را در راه تو نثار کرد تا بندگانت را از نادانی و سرگردانیِ گمراهی برهاند.</div>
+    </div>
+
+    <div class="verse">
+      <div class="ar">وَ قَدْ تَوازَرَ عَلَيْهِ مَنْ غَرَّتْهُ الدُّنْيا، وَ باعَ حَظَّهُ بِالْأَرْذَلِ الْأَدْنى، وَ شَرى آخِرَتَهُ بِالثَّمَنِ الْأَوْكَسِ، وَ أَطاعُوا مِنْ عِبادِكَ أَهْلَ الشِّقاقِ وَ النِّفاقِ، وَ حَمَلَةَ الْأَوْزارِ الْمُسْتَوْجِبينَ لِلنّارِ، فَجاهَدَهُمْ فيكَ صابِراً مُحْتَسِباً، حَتّى سُفِكَ في طاعَتِكَ دَمُهُ، وَ اسْتُبيحَ حَريمُهُ.</div>
+      <div class="fa show">در حالی که همه، آنان که دنیا فریبشان داد، بر ضدّ او دست به دست هم دادند، و بهره خویش را به پست‌ترین بها فروختند، و آخرت خود را به کمترین قیمت دادند، و از میان بندگانت، اهل شکاف‌افکنی و نفاق و بارکِشانِ گناهانِ سنگین و سزاوارانِ آتش را اطاعت کردند؛ پس با آنان درباره تو، صابرانه و برای تو جهاد کرد، تا آنکه در راه طاعت تو خونش ریخته شد و حریمش مباح گشت.</div>
+    </div>
+
+    <div class="verse">
+      <div class="ar">اَللَّهُمَّ فَالْعَنْهُمْ لَعْناً وَبيلاً، وَ عَذِّبْهُمْ عَذاباً أَليماً.<br>السَّلامُ عَلَيْكَ يَا بْنَ رَسُولِ اللَّهِ، السَّلامُ عَلَيْكَ يَا بْنَ سَيِّدِ الْأَوْصِياءِ.</div>
+      <div class="fa show">خدایا! پس آنان را لعنتی سخت کن، و عذابشان کن عذابی دردناک. سلام بر تو ای فرزند رسول خدا، سلام بر تو ای فرزند سرور جانشینان.</div>
+    </div>
+
+    <div class="verse">
+      <div class="ar">أَشْهَدُ أَنَّكَ أَمينُ اللَّهِ وَ ابْنُ أَمينِهِ، عِشْتَ سَعيداً، وَ مَضَيْتَ حَميداً، وَ مُتَّ فَقيداً مَظْلوماً شَهيداً، وَ أَشْهَدُ أَنَّ اللَّهَ مُنْجِزٌ ما وَعَدَكَ، وَ مُهْلِكٌ مَنْ خَذَلَكَ، وَ مُعَذِّبٌ مَنْ قَتَلَكَ، وَ أَشْهَدُ أَنَّكَ وَفَيْتَ بِعَهْدِ اللَّهِ، وَ جاهَدْتَ في سَبيلِهِ حَتّى أَتاكَ الْيَقينُ، فَلَعَنَ اللَّهُ مَنْ قَتَلَكَ، وَ لَعَنَ اللَّهُ مَنْ ظَلَمَكَ، وَ لَعَنَ اللَّهُ مَنْ سَمِعَ بِذلِكَ فَرَضِيَ بِهِ.</div>
+      <div class="fa show">گواهی می‌دهم که تو امین خدا و فرزند امین او هستی، به سعادت زیستی، و ستوده از دنیا رفتی، و در حالی جان سپردی که مظلوم و شهید و گمنام بودی. و گواهی می‌دهم که خداوند آنچه را به تو وعده داده، وفا خواهد کرد، و کسی را که تو را وا نهاد، هلاک خواهد کرد، و کسی را که تو را کشت، عذاب خواهد کرد. و گواهی می‌دهم که تو به عهد خدا وفا کردی، و در راه او جهاد نمودی تا مرگ به سراغت آمد؛ پس لعنت خدا بر کسی که تو را کشت، و لعنت خدا بر کسی که به تو ستم کرد، و لعنت خدا بر کسی که این خبر را شنید و بدان خشنود شد.</div>
+    </div>
+
+    <div class="verse">
+      <div class="ar">اَللَّهُمَّ إِنّي أُشْهِدُكَ أَنّي وَلِيٌّ لِمَنْ والاهُ، وَ عَدُوٌّ لِمَنْ عاداهُ، بِأَبي أَنْتَ وَ أُمّي يَا بْنَ رَسُولِ اللَّهِ، أَشْهَدُ أَنَّكَ كُنْتَ نُوراً فِي الْأَصْلابِ الشّامِخَةِ، وَ الْأَرْحامِ الْمُطَهَّرَةِ، لَمْ تُنَجِّسْكَ الْجاهِلِيَّةُ بِأَنْجاسِها، وَ لَمْ تُلْبِسْكَ مِنْ مُدْلَهِمّاتِها ثِيابَها.</div>
+      <div class="fa show">خدایا، تو را گواه می‌گیرم که من دوستدار دوستان او و دشمن دشمنان اویم. پدر و مادرم به فدایت، ای فرزند رسول خدا! گواهی می‌دهم که تو نوری بودی در صلب‌های بلندمرتبه و رحم‌های پاک، که جاهلیت با پلیدی‌هایش تو را آلوده نکرد، و از جامه‌های تاریکش بر تو نپوشاند.</div>
+    </div>
+
+    <div class="verse">
+      <div class="ar">وَ أَشْهَدُ أَنَّكَ مِنْ دَعائِمِ الدّينِ، وَ أَرْكانِ الْمُسْلِمينَ، وَ مَعْقِلِ الْمُؤْمِنينَ، وَ أَشْهَدُ أَنَّكَ الْإِمامُ الْبَرُّ التَّقِيُّ الرَّضِيُّ الزَّكِيُّ الْهادِي الْمَهْدِيُّ، وَ أَشْهَدُ أَنَّ الْأَئِمَّةَ مِنْ وُلْدِكَ كَلِمَةُ التَّقْوى، وَ أَعْلامُ الْهُدى، وَ الْعُرْوَةُ الْوُثْقى، وَ الْحُجَّةُ عَلى أَهْلِ الدُّنْيا.</div>
+      <div class="fa show">و گواهی می‌دهم که تو از ستون‌های دین، و ارکان مسلمانان، و پناهگاه مؤمنانی؛ و گواهی می‌دهم که تو امامی نیکوکار، پرهیزکار، خشنودشده، پاک، هدایتگر و هدایت‌شده‌ای؛ و گواهی می‌دهم که امامان از فرزندان تو، سخن تقوا، و نشانه‌های هدایت، و دستاویز استوار، و حجّت بر اهل دنیا هستند.</div>
+    </div>
+
+    <div class="verse">
+      <div class="ar">وَ أَشْهَدُ أَنّي بِكُمْ مُؤْمِنٌ، وَ بِإِيابِكُمْ مُوقِنٌ، بِشَرائِعِ ديني، وَ خَواتيمِ عَمَلي، وَ قَلْبي لِقَلْبِكُمْ سِلْمٌ، وَ أَمْري لِأَمْرِكُمْ مُتَّبِعٌ، نُصْرَتي لَكُمْ مُعَدَّةٌ، حَتّى يُحْيِيَ اللَّهُ تَعالى دينَهُ بِكُمْ، وَ يَرُدَّكُمْ في أَيّامِهِ، وَ يُظْهِرَكُمْ لِعَدْلِهِ، وَ يُمَكِّنَكُمْ في أَرْضِهِ، فَمَعَكُمْ مَعَكُمْ لا مَعَ عَدُوِّكُمْ.</div>
+      <div class="fa show">و گواهی می‌دهم که من به شما ایمان دارم، و به بازگشتتان یقین دارم، در پیروی از احکام دینم و در پایان کارم؛ و دلم با دل شما در صلح است، و کارم پیرو کار شماست، و یاری‌ام برای شما آماده است، تا خداوند دین خود را به دست شما زنده کند، و شما را در روزگار خویش بازگرداند، و برای عدل خود آشکارتان سازد، و در زمین خود جایگاهتان دهد؛ پس من با شمایم، با شما، نه با دشمن شما.</div>
+    </div>
+
+    <div class="verse">
+      <div class="ar">صَلَّى اللَّهُ عَلَيْكَ وَ عَلى أَرْواحٍ حَلَّتْ بِفِنائِكَ، عَلَيْكَ مِنّي سَلامُ اللَّهِ أَبَداً ما بَقيتُ وَ بَقِيَ اللَّيْلُ وَ النَّهارُ، وَ لا جَعَلَهُ اللَّهُ آخِرَ الْعَهْدِ مِنّي لِزِيارَتِكُمْ. اَلسَّلامُ عَلَى الْحُسَيْنِ، وَ عَلى عَلِيِّ بْنِ الْحُسَيْنِ، وَ عَلى أَوْلادِ الْحُسَيْنِ، وَ عَلى أَصْحابِ الْحُسَيْنِ.</div>
+      <div class="fa show">درود خدا بر تو، و بر ارواحی که در آستانه تو فرود آمدند؛ سلام خدا از سوی من بر تو باد، همیشه تا زنده‌ام و تا شب و روز باقی است، و خداوند این را واپسین عهدِ زیارتِ من از شما قرار ندهد. سلام بر حسین، و بر علی بن الحسین، و بر فرزندان حسین، و بر یاران حسین.</div>
+    </div>
+
+  </section>
+
+  <p class="section-label">— دعای پس از زیارت (در سجده) —</p>
+
+  <section class="frame">
+    <div class="verse" style="margin-bottom:0;padding-bottom:0;border-bottom:none;">
+      <div class="ar">اَللَّهُمَّ لَكَ الْحَمْدُ حَمْدَ الشّاكِرينَ لَكَ عَلى مُصابِهِمْ، اَلْحَمْدُ لِلَّهِ عَلى عَظيمِ رَزِيَّتي، اَللَّهُمَّ ارْزُقْني شَفاعَةَ الْحُسَيْنِ يَوْمَ الْوُرُودِ، وَ ثَبِّتْ لي قَدَمَ صِدْقٍ عِنْدَكَ مَعَ الْحُسَيْنِ وَ أَصْحابِ الْحُسَيْنِ الَّذينَ بَذَلُوا مُهَجَهُمْ دُونَ الْحُسَيْنِ عَلَيْهِ السَّلامُ.</div>
+      <div class="fa show">خدایا، سپاس تو راست، سپاسِ سپاسگزاران بر مصیبتشان؛ سپاس خدای را بر بزرگیِ مصیبت من. خدایا، شفاعت حسین را روز ورود [به قیامت] روزیم گردان، و قدمی راستین نزد خویش برایم استوار ساز، همراه با حسین و یاران حسین که جان خود را در راه او نثار کردند، علیه‌السلام.</div>
+      <p style="font-size:.82rem;color:var(--parchment-soft);opacity:.7;margin-top:20px;">سپس دو رکعت نماز می‌گزاری و به آنچه می‌خواهی دعا می‌کنی.</p>
+    </div>
+  </section>
+
+  <p class="section-label">— صوت زیارت اربعین با نوای مداحان —</p>
+  <section class="frame" style="padding-top:34px;">
+
+    <div class="reciter">
+      <div class="reciter-name">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
+        <span>استاد محسن فرهمند</span>
+      </div>
+      <audio controls preload="none" src="https://relaxingcamp.ir/wp-content/uploads/2023/07/زیارت-اربعین-با-نوای-استاد-فرهمند.mp3"></audio>
+      <a class="dl-link" href="https://relaxingcamp.ir/wp-content/uploads/2023/07/زیارت-اربعین-با-نوای-استاد-فرهمند.mp3" download target="_blank" rel="noopener">دانلود فایل MP3 ↓</a>
+    </div>
+
+    <div class="reciter" style="margin-bottom:0;padding-bottom:0;border-bottom:none;">
+      <div class="reciter-name">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
+        <span>حاج میثم مطیعی</span>
+      </div>
+      <audio controls preload="none" src="http://mda.emadionline.com/Ziarat-Arbaeen/Ziarat-Arbaeen-Motiei.mp3"></audio>
+      <a class="dl-link" href="http://mda.emadionline.com/Ziarat-Arbaeen/Ziarat-Arbaeen-Motiei.mp3" download target="_blank" rel="noopener">دانلود فایل MP3 ↓</a>
+    </div>
+
+  </section>
+
+  <div class="qr-section">
+    <h2>اشتراک‌گذاری با کد QR</h2>
+    <p class="hint">این کد QR به همین صفحه اشاره می‌کند. پس از آپلود این فایل روی یک فضای میزبانی (مثل هاست شخصی، گیت‌هاب پیجز یا گوگل‌درایو با لینک عمومی)، می‌توانید کد را چاپ یا در فضای مجازی به اشتراک بگذارید تا دیگران با اسکن آن، مستقیم به متن و صوت زیارت دسترسی داشته باشند.</p>
+    <div id="qrcode"></div>
+    <div class="url-box">
+      <input type="text" id="pageUrl" readonly>
+      <button class="btn" id="copyBtn" onclick="copyUrl()">کپی لینک</button>
+    </div>
+  </div>
+
+  <footer>
+    اللّهم صلّ علی محمد و آل محمد و عجّل فرجهم<br>
+    تقبل الله زیارتکم
+  </footer>
+
+</main>
+
+<script>
+  function toggleTranslation(){
+    const els = document.querySelectorAll('.fa');
+    const btn = document.getElementById('toggleTranslation');
+    const anyShown = document.querySelector('.fa.show');
+    els.forEach(e => e.classList.toggle('show', !anyShown));
+    btn.classList.toggle('active', !anyShown);
+  }
+
+  // QR code — points to this page's own URL
+  const url = window.location.href.startsWith('http') ? window.location.href : 'این فایل را ابتدا میزبانی (Host) کنید تا لینک واقعی این‌جا نمایش داده شود';
+  document.getElementById('pageUrl').value = url;
+  try{
+    new QRCode(document.getElementById("qrcode"), {
+      text: window.location.href,
+      width: 200,
+      height: 200,
+      colorDark: "#0f3d2e",
+      colorLight: "#fbf6e8",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }catch(e){ document.getElementById('qrcode').innerText = 'کد QR پس از میزبانی صفحه در دسترس خواهد بود.'; }
+
+  function copyUrl(){
+    const input = document.getElementById('pageUrl');
+    const btn = document.getElementById('copyBtn');
+    input.removeAttribute('readonly');
+    input.focus();
+    input.select();
+    input.setSelectionRange(0, 99999);
+    let ok = false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(input.value);
+        ok = true;
+      }
+    }catch(e){ ok = false; }
+    if(!ok){
+      try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+    }
+    input.setAttribute('readonly', true);
+    if(btn){
+      const original = btn.innerText;
+      btn.innerText = ok ? 'کپی شد ✓' : 'انتخاب شد — Ctrl+C را بزنید';
+      setTimeout(() => { btn.innerText = original; }, 2200);
+    }
+  }
+
+  // ensure only one audio player plays at a time
+  document.querySelectorAll('audio').forEach(a => {
+    a.addEventListener('play', () => {
+      document.querySelectorAll('audio').forEach(other => { if(other !== a) other.pause(); });
+    });
+  });
+</script>
+
+</body>
+</html>
